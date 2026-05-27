@@ -1,0 +1,78 @@
+'use client';
+
+import { useState } from 'react';
+import { DashboardLayout } from '@/components/layout/dashboard-layout';
+import { DashboardHeader } from '@/components/dashboard/dashboard-header';
+import { PatientOverview } from '@/components/dashboard/patient-overview';
+import { UrgentAlerts } from '@/components/dashboard/urgent-alerts';
+import { ShiftHandoffs } from '@/components/dashboard/shift-handoffs';
+import { AIRiskIndicators } from '@/components/dashboard/ai-risk-indicators';
+import { MultilingualSummaries } from '@/components/dashboard/multilingual-summaries';
+import {
+  mockPatients,
+  mockAlerts,
+  mockShiftHandoffs,
+  mockRiskAssessments,
+  mockMultilingualSummaries,
+} from '@/lib/mock-data';
+
+export default function DashboardPage() {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // In a real app, this would be live state. For now, always show mockPatients.
+  const filteredPatients = mockPatients.filter(
+    (patient) =>
+      patient.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      patient.patientId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      patient.bed.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
+  const filteredAlerts = searchQuery
+    ? mockAlerts.filter((alert) => filteredPatients.some((p) => p.id === alert.patientId))
+    : mockAlerts;
+
+  const filteredHandoffs = searchQuery
+    ? mockShiftHandoffs.filter((handoff) =>
+        filteredPatients.some((p) => p.id === handoff.patientId),
+      )
+    : mockShiftHandoffs;
+
+  const filteredAssessments = searchQuery
+    ? mockRiskAssessments.filter((assessment) =>
+        filteredPatients.some((p) => p.id === assessment.patientId),
+      )
+    : mockRiskAssessments;
+
+  return (
+    <DashboardLayout>
+      <div className="space-y-8">
+        <DashboardHeader onSearch={setSearchQuery} />
+
+        {searchQuery ? (
+          filteredPatients.length > 0 ? (
+            <>
+              <PatientOverview patients={filteredPatients} />
+              <UrgentAlerts alerts={filteredAlerts} />
+              <ShiftHandoffs handoffs={filteredHandoffs} />
+              <AIRiskIndicators assessments={filteredAssessments} />
+            </>
+          ) : (
+            <div className="bg-card border border-border rounded-lg p-12 text-center">
+              <p className="text-muted-foreground text-lg">
+                No patients found matching &quot;{searchQuery}&quot;
+              </p>
+            </div>
+          )
+        ) : (
+          <>
+            <PatientOverview patients={filteredPatients} />
+            <UrgentAlerts alerts={filteredAlerts} />
+            <ShiftHandoffs handoffs={filteredHandoffs} />
+            <AIRiskIndicators assessments={filteredAssessments} />
+            <MultilingualSummaries summaries={mockMultilingualSummaries} />
+          </>
+        )}
+      </div>
+    </DashboardLayout>
+  );
+}
