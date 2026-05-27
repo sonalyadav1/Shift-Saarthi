@@ -1,13 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { DashboardLayout } from '@/components/dashboard-layout';
-import { DashboardHeader } from '@/components/dashboard-header';
-import { PatientOverview } from '@/components/patient-overview';
-import { UrgentAlerts } from '@/components/urgent-alerts';
-import { ShiftHandoffs } from '@/components/shift-handoffs';
-import { AIRiskIndicators } from '@/components/ai-risk-indicators';
-import { MultilingualSummaries } from '@/components/multilingual-summaries';
+import { DashboardLayout } from '@/components/layout/dashboard-layout';
+import { DashboardHeader } from '@/components/dashboard/dashboard-header';
+import { PatientOverview } from '@/components/dashboard/patient-overview';
+import { UrgentAlerts } from '@/components/dashboard/urgent-alerts';
+import { ShiftHandoffs } from '@/components/dashboard/shift-handoffs';
+import { AIRiskIndicators } from '@/components/dashboard/ai-risk-indicators';
+import { MultilingualSummaries } from '@/components/dashboard/multilingual-summaries';
 import { mockPatients, mockAlerts, mockShiftHandoffs, mockRiskAssessments, mockMultilingualSummaries } from '@/lib/mock-data';
 
 export default function Dashboard() {
