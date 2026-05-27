@@ -101,7 +101,7 @@ Provides a centralized interface for patient workflow monitoring and handoff man
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/ShiftSaarthi.git
+git clone https://github.com/sonalyadav1/Shift-Saarthi.git
 cd ShiftSaarthi
 ```
 
